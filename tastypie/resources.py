@@ -10,6 +10,7 @@ from django.db import transaction
 from django.db.models.sql.constants import QUERY_TERMS
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.utils.cache import patch_cache_control, patch_vary_headers
+from django.utils import html
 from tastypie.authentication import Authentication
 from tastypie.authorization import ReadOnlyAuthorization
 from tastypie.bundle import Bundle
@@ -223,7 +224,7 @@ class Resource(object):
 
                 return response
             except (BadRequest, fields.ApiFieldError), e:
-                return http.HttpBadRequest(e.args[0])
+                return http.HttpBadRequest(html.strip_tags(e.args[0]))
             except ValidationError, e:
                 return http.HttpBadRequest(', '.join(e.messages))
             except Exception, e:
