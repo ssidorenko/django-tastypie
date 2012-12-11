@@ -166,8 +166,8 @@ class ApiKeyAuthentication(Authentication):
 
             username, api_key = data.split(':', 1)
         else:
-            username = request.GET.get('username') or request.POST.get('username')
-            api_key = request.GET.get('api_key') or request.POST.get('api_key')
+            username = request.GET.get('username') or request.POST.get('username') or request.META.get('username')
+            api_key = request.GET.get('api_key') or request.POST.get('api_key') or request.META.get('api_key')
 
         return username, api_key
 
